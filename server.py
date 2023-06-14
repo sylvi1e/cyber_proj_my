@@ -95,7 +95,7 @@ while True:
             if n.name=="plh":
                 message =client.recv(1024).decode().split(",")
                 print(message)
-                if message==['']:
+                if message==[''] or message==['leave']:
                     print(n.name + " exit")
                     clients.kick(n)
                 elif message[0] == "model" and len(message)==1:
@@ -167,8 +167,3 @@ while True:
                     except json.decoder.JSONDecodeError:
                         print(n.name + " exit")
                         clients.kick(n)
-
-
-
-
-
