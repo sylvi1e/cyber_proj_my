@@ -97,7 +97,8 @@ class page_1(tk.Frame):
                 messagebox.showinfo("admin", "welcome")
                 root.change_page(page_3)
             else:
-                messagebox.showerror("error", "error")
+                messagebox.showerror("error", "server failed please disconect")
+                root.change_page(page_e)
         inputuser = tk.Text(self,height=1,width=20)
         inputuser.grid()
         lbl = tk.Label(self, text="username")
@@ -111,7 +112,16 @@ class page_1(tk.Frame):
 
         '''self.my_button = tk.Button(self, text = 'hi', command=lambda: root.change_page(page_2))
         self.my_button.grid()'''
-
+class page_e(tk.Frame):
+    def __init__(self, root, *args, **kwargs):
+        super().__init__(root, *args, **kwargs)
+        self.shape = []
+        def disc():
+            quit()
+        lbl = tk.Label(self, text="server failed please disconect")
+        lbl.grid()
+        my_button = tk.Button(self, text='exit', command=lambda: disc())
+        my_button.grid()
 class page_3(tk.Frame):
     def __init__(self,root, *args, **kwargs):
         super().__init__(root, *args, **kwargs)
