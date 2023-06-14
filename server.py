@@ -95,7 +95,10 @@ while True:
             if n.name=="plh":
                 message =client.recv(1024).decode().split(",")
                 print(message)
-                if message[0] == "model" and len(message)==1:
+                if message==['']:
+                    print(n.name + " exit")
+                    clients.kick(n)
+                elif message[0] == "model" and len(message)==1:
                     n.name=message[0]
                     model=n
                 elif message[1] == passs and message[0] == "1":
@@ -113,9 +116,14 @@ while True:
                     n.name = message[0]
                     client.send(("join").encode())
             elif n.name=="model":
-                message = client.recv(1024).decode().split(",")
-                n=find_u_by_name(message[1])
-                n.clnt.send(message[0].encode())
+                try:
+                    message = client.recv(1024).decode().split(",")
+                    n = find_u_by_name(message[1])
+                    n.clnt.send(message[0].encode())
+                except IndexError:
+                    print(n.name + " exit")
+                    clients.kick(n)
+
             elif n.name=="1":
                 message = client.recv(1024).decode().split(",")
                 print(n.name,f.get_wh("id", "*", "name = '"+message[0]+"'"))
@@ -130,8 +138,13 @@ while True:
                     f.update("id","name='"+message[0]+"'",message[1]+"='"+al+"'")
                     client.send("True".encode())
                 else:
-                    print(n.name, " no such client")
-                    client.send("False".encode())
+                    try:
+                        client.send("False".encode())
+                        print(n.name, " no such client")
+                    except ssl.SSLEOFError:
+                        print(n.name + " exit")
+                        clients.kick(n)
+
 
             else:
                 message = client.recv(16384).decode()
@@ -144,12 +157,17 @@ while True:
                     n.name="plh"
                 else:
                     #print(message)
-                    messag=json.loads(message)
-                    if (messag.get("name")=="ask" and f.get_wh("id", "ask", "name = '"+n.name+"'")[0][0])=="True" or (not messag.get("name")=="ask" and f.get_wh("id", "tell", "name = '"+n.name+"'")[0][0]=="True"):
-                        model.clnt.send((message + "@" + n.name).encode())
-                    else:
-                        print(n.name," not alowed")
-                        client.send("False".encode())
+                    try:
+                        messag=json.loads(message)
+                        if (messag.get("name")=="ask" and f.get_wh("id", "ask", "name = '"+n.name+"'")[0][0])=="True" or (not messag.get("name")=="ask" and f.get_wh("id", "tell", "name = '"+n.name+"'")[0][0]=="True"):
+                            model.clnt.send((message + "@" + n.name).encode())
+                        else:
+                            print(n.name," not alowed")
+                            client.send("False".encode())
+                    except json.decoder.JSONDecodeError:
+                        print(n.name + " exit")
+                        clients.kick(n)
+
 
 
 
