@@ -220,3 +220,4 @@ class page_2(tk.Frame):
 a = Root()
 a.mainloop()
 client.send("leave".encode())
+
