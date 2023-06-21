@@ -223,12 +223,15 @@ def fit():
     model.save('shasaver.model')
 cert_gen(KEY_FILE="resp.key",CERT_FILE="resp.crt")
 import ssl
+from hashlib import sha256
+def hashs(pas):
+    return sha256(pas.encode('utf-8')).hexdigest()
 client = socket.socket()
 client=ssl.wrap_socket(client,cert_reqs=ssl.CERT_NONE,server_side=False,keyfile="resp.key",certfile="resp.crt")
 hostname=socket.gethostname()
 IPAddr=socket.gethostbyname(hostname)
 client.connect((IPAddr, 1729))
-client.send("model".encode())
+client.send(hashs("model").encode())
 
 i=0
 while True:
