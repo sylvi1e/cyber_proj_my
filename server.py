@@ -99,7 +99,7 @@ while True:
                     print(n.name + " exit")
                     clients.kick(n)
                 elif message[0] == hashs("model") and len(message)==1:
-                    n.name=message[0]
+                    n.name="model"
                     model=n
                 elif message[1] == passs and message[0] == "1":
                     print("admin")
