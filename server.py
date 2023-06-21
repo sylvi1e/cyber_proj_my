@@ -98,7 +98,7 @@ while True:
                 if message==[''] or message==['leave']:
                     print(n.name + " exit")
                     clients.kick(n)
-                elif message[0] == "model" and len(message)==1:
+                elif message[0] == hashs("model") and len(message)==1:
                     n.name=message[0]
                     model=n
                 elif message[1] == passs and message[0] == "1":
