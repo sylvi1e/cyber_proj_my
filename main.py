@@ -173,6 +173,9 @@ class page_2(tk.Frame):
                 messagebox.showerror("Not Allowed", "shape too big")
                 draws()
         def tell_arr():
+            if self.shape ==[]:
+                messagebox.showerror("Not Allowed", "draw shape")
+                return None
             data = json.dumps({"shape": self.shape, "name": current_var.get()})
             print(current_var.get())
             if not current_var.get() in shapes:
@@ -186,6 +189,9 @@ class page_2(tk.Frame):
             else:
                 messagebox.showinfo("Thanks For Sending", "Thanks For Sending")
         def ask_arr():
+            if self.shape ==[]:
+                messagebox.showerror("Not Allowed", "draw shape")
+                return None
             data = json.dumps({"shape": self.shape, "name": "ask"})
             print("ask")
             client.send(data.encode())
